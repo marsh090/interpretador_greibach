@@ -1,3 +1,6 @@
+import sys
+
+
 class Gramatica:
     def __init__(self, variaveis, terminais, simbolo_inicial, transicoes):
         self.variaveis = variaveis
@@ -65,7 +68,8 @@ class Gramatica:
             self.transicoes[estado] = [list(x) for x in set(tuple(x) for x in self.transicoes[estado]) if x != []]
 
     def remover_producoes_unidade(self):
-        producoes_unidade = {estado: [destino for destino in destinos if len(destino) == 1 and destino[0] in self.variaveis]
+        producoes_unidade = {estado: [destino for destino in destinos if len(destino) == 1
+                                      and destino[0] in self.variaveis]
                              for estado, destinos in self.transicoes.items()}
 
         while any(producoes_unidade.values()):
@@ -76,7 +80,8 @@ class Gramatica:
                             if destino not in self.transicoes[estado]:
                                 self.adicionar_transicao(estado, destino)
                     self.remover_transicao(estado, unidade)
-                producoes_unidade[estado] = [destino for destino in self.transicoes.get(estado, []) if len(destino) == 1 and destino[0] in self.variaveis]
+                producoes_unidade[estado] = [destino for destino in self.transicoes.get(estado, [])
+                                             if len(destino) == 1 and destino[0] in self.variaveis]
 
     def remover_transicoes_sem_destino(self):
         transicoes_sem_destino = [estado for estado, destinos in self.transicoes.items() if [] in destinos]
@@ -139,7 +144,8 @@ class Gramatica:
         for estado in self.variaveis:
             novas_producoes = []
             for destino in self.transicoes.get(estado, []):
-                while destino and destino[0] in self.variaveis and self.variaveis.index(destino[0]) < self.variaveis.index(estado):
+                while (destino and destino[0] in self.variaveis
+                       and self.variaveis.index(destino[0]) < self.variaveis.index(estado)):
                     prefixo = destino[0]
                     sufixo = destino[1:]
                     self.remover_transicao(estado, destino)
@@ -204,7 +210,8 @@ class Gramatica:
             self.transicoes[estado] = [list(x) for x in set(tuple(x) for x in self.transicoes[estado])]
 
         for estado in self.transicoes:
-            self.transicoes[estado] = [destino for destino in self.transicoes[estado] if destino[0] not in self.variaveis]
+            self.transicoes[estado] = [destino for destino in self.transicoes[estado]
+                                       if destino[0] not in self.variaveis]
 
     def encontrar_transicoes_fora_de_forma(self):
         transicoes_fora_de_forma = {}
@@ -296,4 +303,5 @@ def main(arquivo):
 
 
 if __name__ == "__main__":
-    main('gramatica.txt')
+    input_name = sys.argv[1]
+    main(input_name)
