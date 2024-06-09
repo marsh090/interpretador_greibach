@@ -1,0 +1,8 @@
+Variaveis: S A B C D E
+Terminais: a b c d e eps
+Simbolo inicial: S
+Transicoes:
+S aA
+S eps
+A bBaA
+A eps
